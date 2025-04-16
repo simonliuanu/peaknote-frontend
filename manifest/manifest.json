@@ -6,9 +6,9 @@
   "packageName": "com.yourcompany.meetingnotes",
   "developer": {
     "name": "Yuheng",
-    "websiteUrl": "https://lively-bush-0a2376a1e.6.azurestaticapps.net",
-    "privacyUrl": "https://lively-bush-0a2376a1e.6.azurestaticapps.net/privacy",
-    "termsOfUseUrl": "https://lively-bush-0a2376a1e.6.azurestaticapps.net/terms"
+    "websiteUrl": "https://white-forest-056934c1e.6.azurestaticapps.net",
+    "privacyUrl": "https://white-forest-056934c1e.6.azurestaticapps.net/privacy",
+    "termsOfUseUrl": "https://white-forest-056934c1e.6.azurestaticapps.net/terms"
   },
   "name": {
     "short": "PeakNote",
@@ -27,8 +27,8 @@
     {
       "entityId": "meetingNotesTab",
       "name": "PeakNote",
-      "contentUrl": "https://lively-bush-0a2376a1e.6.azurestaticapps.net/index.html",
-      "websiteUrl": "https://lively-bush-0a2376a1e.6.azurestaticapps.net",
+      "contentUrl": "https://white-forest-056934c1e.6.azurestaticapps.net/index.html",
+      "websiteUrl": "https://white-forest-056934c1e.6.azurestaticapps.net",
       "scopes": ["personal"]
     }
   ],
