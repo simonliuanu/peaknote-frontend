@@ -52,77 +52,209 @@
       transform: translateY(-5px);
     }
     .btn-primary {
-      background: linear-gradient(to right, #4776E6, #8E54E9);
-      border: none;
-      padding: 10px 25px;
-      border-radius: 30px;
-      transition: all 0.3s ease;
+      background: none;
       position: relative;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 0;
+      color: white;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
       overflow: hidden;
+      transition: all 0.3s ease;
+      z-index: 1;
+      box-shadow: none;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(71, 118, 230, 0.4);
-    }
-    
-    /* Add pulse glow effect for Generate Notes button */
-    .btn-primary.pulse-glow {
-      animation: pulse-glow 2s infinite;
-    }
-    
-    @keyframes pulse-glow {
-      0% {
-        box-shadow: 0 0 0 0 rgba(71, 118, 230, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 15px rgba(71, 118, 230, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(71, 118, 230, 0);
-      }
-    }
-    
-    /* Wave effect for processing state */
-    .btn-processing {
-      background: linear-gradient(to right, #4776E6, #8E54E9);
-    }
-    
-    .btn-processing:after {
+
+    .btn-primary:before {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 200%;
+      left: 0;
+      width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.3) 50%, 
-        rgba(255,255,255,0) 100%);
-      animation: wave-animation 1.5s infinite linear;
+      background: linear-gradient(90deg, #ff00cc, #3333ff);
+      z-index: -1;
+      clip-path: polygon(
+        0 0, 
+        100% 0, 
+        100% calc(100% - 8px), 
+        calc(100% - 8px) 100%, 
+        0 100%
+      );
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .btn-primary:hover:before {
+      transform: rotate(-2deg) scale(1.05);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      text-shadow: 0 5px 10px rgba(0,0,0,0.3);
     }
     
-    @keyframes wave-animation {
+    .btn-primary:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #3333ff, #ff00cc);
+      z-index: -2;
+      clip-path: polygon(
+        15px 15px, 
+        calc(100% - 15px) 15px, 
+        calc(100% - 15px) calc(100% - 15px), 
+        15px calc(100% - 15px)
+      );
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+    
+    .btn-primary:hover:after {
+      opacity: 0.5;
+      transform: translate(-5px, 5px);
+    }
+    
+    .btn-primary.pulse-glow {
+      animation: none;
+    }
+    
+    .btn-primary.btn-processing {
+      background: none;
+    }
+    
+    .btn-primary.btn-processing:before {
+      background: linear-gradient(90deg, #3333ff, #ff00cc, #3333ff);
+      background-size: 200% 100%;
+      animation: gradient-move 2s infinite linear;
+    }
+    
+    @keyframes gradient-move {
       0% {
-        transform: translateX(0%);
+        background-position: 0% 0%;
       }
       100% {
-        transform: translateX(50%);
+        background-position: 200% 0%;
       }
     }
     
+    /* Delete old tab-buttons styles and redesign action buttons */
+    .tab-buttons {
+      display: flex;
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: visible;
+      gap: 20px;
+    }
+    
+    .tab-button {
+      padding: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 130px;
+      height: 50px;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: visible;
+    }
+    
+    .tab-button span {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .tab-button i {
+      margin-right: 8px;
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+    
+    .tab-button:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform-origin: center;
+      transition: all 0.3s ease;
+    }
+    
+    .tab-button:hover:before {
+      transform: perspective(500px) rotateX(10deg) scale(1.05);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .tab-button:after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: calc(100% + 6px);
+      height: calc(100% + 6px);
+      background: linear-gradient(45deg, #ff00cc, #3333ff, #00ffaa);
+      z-index: -1;
+      opacity: 0;
+      filter: blur(10px);
+      transition: opacity 0.3s ease;
+    }
+    
+    .tab-button:hover:after {
+      opacity: 1;
+    }
+    
+    .tab-button:hover i {
+      transform: translateY(-3px) scale(1.2);
+      color: #00ffaa;
+    }
+    
+    .tab-button:active:before {
+      transform: perspective(500px) rotateX(10deg) scale(0.95);
+    }
+    
+    /* Redesigned action buttons container */
+    .action-buttons {
+      margin-top: 30px;
+    }
+    
+    /* Remove old ripple styles */
+    .ripple-effect {
+      display: none;
+    }
+
+    /* Update the form container as well to match new design */
+    .form-container {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+    
+    /* Add back the form control styles */
     .form-control, .form-select {
       border-radius: 10px;
       padding: 12px 15px;
-      border: 1px solid #e0e0e0;
-      transition: all 0.3s ease;
-    }
-    .form-control:focus, .form-select:focus {
-      box-shadow: 0 0 0 3px rgba(142, 84, 233, 0.2);
-      border-color: #8E54E9;
-    }
-    
-    /* Frosted glass effect for input fields */
-    .form-control, .form-select {
       background-color: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -130,6 +262,27 @@
       color: white;
       font-weight: 500;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      caret-color: white;
+    }
+    
+    /* Ensure input text is white */
+    #teams-url {
+      color: white !important;
+    }
+    
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      opacity: 1;
+    }
+    
+    /* Firefox specific color fix */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: white;
+      -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.1) inset;
+      transition: background-color 5000s ease-in-out 0s;
     }
     
     .form-control::placeholder {
@@ -139,18 +292,8 @@
     .form-control:focus, .form-select:focus {
       background-color: rgba(255, 255, 255, 0.25);
       border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 0 0 3px rgba(142, 84, 233, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15);
-      color: white;
-      animation: input-glow 1.5s infinite alternate;
-    }
-    
-    @keyframes input-glow {
-      from {
-        box-shadow: 0 0 5px rgba(142, 84, 233, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-      to {
-        box-shadow: 0 0 15px rgba(142, 84, 233, 0.6), 0 4px 12px rgba(0, 0, 0, 0.2);
-      }
+      box-shadow: 0 0 15px rgba(142, 84, 233, 0.6), 0 4px 12px rgba(0, 0, 0, 0.2);
+      outline: none;
     }
     
     /* Ensure text is visible in select dropdown */
@@ -163,6 +306,7 @@
       color: white;
     }
     
+    /* Basic text styles */
     h1 {
       color: #fff;
       font-weight: bold;
@@ -171,9 +315,12 @@
       perspective: 500px;
       animation: float 6s ease-in-out infinite;
     }
+    
     .lead {
       color: rgba(255, 255, 255, 0.9);
     }
+    
+    /* Background elements */
     #particles-js {
       position: absolute;
       width: 100%;
@@ -182,6 +329,8 @@
       left: 0;
       z-index: 1;
     }
+    
+    /* Text effects */
     .text-gradient {
       background: linear-gradient(to right, #74ebd5, #ACB6E5);
       background-size: 200% auto;
@@ -193,9 +342,12 @@
       filter: drop-shadow(0 0 15px rgba(116, 235, 213, 0.5));
       animation: shine 3s linear infinite;
     }
+    
     @keyframes shine {
       to { background-position: 200% center; }
     }
+    
+    /* Typing animation */
     .typing-animation {
       border-right: 3px solid;
       white-space: nowrap;
@@ -231,18 +383,23 @@
       transform: scaleX(0);
       animation: underline 3.5s 1s forwards;
     }
+    
     @keyframes underline {
       to { transform: scaleX(1); }
     }
+    
+    /* Other animations */
     .bounce-in {
       animation: bounce-in 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000);
     }
+    
     @keyframes bounce-in {
       0% { transform: scale(0.3); opacity: 0; }
       50% { transform: scale(1.05); opacity: 1; }
       70% { transform: scale(0.9); }
       100% { transform: scale(1); }
     }
+    
     @keyframes fadeInDown {
       from {
         opacity: 0;
@@ -253,6 +410,7 @@
         transform: translateY(0);
       }
     }
+    
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -339,55 +497,21 @@
       min-height: 200mm;
     }
     
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    .tab-buttons {
-      display: inline-flex;
-      background: white;
-      border-radius: 30px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    
-    .tab-button {
-      padding: 12px 25px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      font-weight: bold;
-      color: #666;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-    
-    .tab-button:before {
-      content: '';
+    /* Button highlight effect */
+    .button-highlight {
       position: absolute;
       top: 0;
       left: 0;
-      width: 0;
-      height: 100%;
-      background: linear-gradient(to right, #4776E6, #8E54E9);
-      transition: all 0.3s ease;
-      z-index: -1;
-    }
-    
-    .tab-button:hover:before {
       width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
     }
     
-    .tab-button:hover {
-      color: white;
-    }
-    
-    .tab-button i {
-      margin-right: 8px;
+    .active-button:before {
+      transform: perspective(500px) rotateX(10deg) scale(0.95);
     }
     
     .chat-bubble {
@@ -402,8 +526,6 @@
         transform: translateY(0);
       }
     }
-
-    /* End meeting minutes section styles */
 
     @keyframes float {
       0%, 100% { transform: translateY(0) rotate3d(1, 1, 0, 0deg); }
@@ -479,10 +601,10 @@
       <div class="action-buttons chat-bubble" style="animation-delay: 0.3s;">
         <div class="tab-buttons">
           <button class="tab-button" id="download-btn">
-            <i class="fas fa-download"></i> Download
+            <span><i class="fas fa-download"></i> Download</span>
           </button>
           <button class="tab-button" id="share-btn">
-            <i class="fas fa-share-alt"></i> Share
+            <span><i class="fas fa-share-alt"></i> Share</span>
           </button>
         </div>
       </div>
@@ -498,6 +620,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="js/meetingTemplates.js"></script>
   <script>
     // Initialize particle.js
     particlesJS("particles-js", {
@@ -578,36 +701,37 @@
       "retina_detect": true
     });
 
-    // Text animation for the welcome message
-    const typingText = document.getElementById('typing-text');
-    const messages = [
-      'Your intelligent meeting assistant',
-      'Capture every important detail',
-      'Never miss a key discussion point',
-      'Make your meetings more productive'
-    ];
-    let messageIndex = 0;
-    
-    function typeNextMessage() {
-      const container = typingText.parentElement;
-      typingText.style.animation = 'none';
-      typingText.style.width = '0';
-      
-      setTimeout(() => {
-        typingText.textContent = messages[messageIndex];
-        typingText.style.animation = 'typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite';
-        
-        messageIndex = (messageIndex + 1) % messages.length;
-        
-        setTimeout(typeNextMessage, 5000);
-      }, 500);
-    }
-    
-    // Start the typing animation after page load
-    setTimeout(typeNextMessage, 2000);
-
-    // Add animation to form elements
+    // Document ready handler
     document.addEventListener('DOMContentLoaded', function() {
+      // Text animation for the welcome message
+      const typingText = document.getElementById('typing-text');
+      const messages = [
+        'Your intelligent meeting assistant',
+        'Capture every important detail',
+        'Never miss a key discussion point',
+        'Make your meetings more productive'
+      ];
+      let messageIndex = 0;
+      
+      function typeNextMessage() {
+        const container = typingText.parentElement;
+        typingText.style.animation = 'none';
+        typingText.style.width = '0';
+        
+        setTimeout(() => {
+          typingText.textContent = messages[messageIndex];
+          typingText.style.animation = 'typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite';
+          
+          messageIndex = (messageIndex + 1) % messages.length;
+          
+          setTimeout(typeNextMessage, 5000);
+        }, 500);
+      }
+      
+      // Start the typing animation after page load
+      setTimeout(typeNextMessage, 2000);
+  
+      // Add animation to form elements
       const formElements = document.querySelectorAll('.form-control, .form-select, .btn');
       
       formElements.forEach((element, index) => {
@@ -618,9 +742,71 @@
       // Add pulse glow to the generate button after it appears
       setTimeout(() => {
         const generateBtn = document.querySelector('.btn-primary');
-        generateBtn.classList.add('pulse-glow');
+        if (generateBtn) generateBtn.classList.add('pulse-glow');
       }, 1500);
+      
+      // Set up action button event handlers
+      setupActionButtons();
     });
+
+    function setupActionButtons() {
+      // Handle download button
+      const downloadBtn = document.getElementById('download-btn');
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          this.classList.add('active-button');
+          
+          setTimeout(() => {
+            this.classList.remove('active-button');
+            alert('Downloading meeting minutes as PDF...');
+          }, 300);
+        });
+      }
+      
+      // Handle share button
+      const shareBtn = document.getElementById('share-btn');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          this.classList.add('active-button');
+          
+          setTimeout(() => {
+            this.classList.remove('active-button');
+            
+            const shareOptions = ['Email', 'Teams', 'Slack', 'Copy link'];
+            const option = prompt('Choose sharing method:\n' + shareOptions.join('\n'));
+            if (option) {
+              alert('Sharing via ' + option + '...');
+            }
+          }, 300);
+        });
+      }
+      
+      // Add hover effects to tab buttons
+      const tabButtons = document.querySelectorAll('.tab-button');
+      if (tabButtons.length > 0) {
+        tabButtons.forEach(button => {
+          // Mouse enter event
+          button.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+              icon.style.transform = 'translateY(-3px) scale(1.2)';
+              icon.style.color = '#00ffaa';
+            }
+          });
+          
+          // Mouse leave event
+          button.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('i');
+            if (icon) {
+              icon.style.transform = '';
+              icon.style.color = '';
+            }
+          });
+        });
+      }
+    }
 
     // Form submission handler
     document.getElementById('meeting-form').addEventListener('submit', function(e) {
@@ -628,7 +814,7 @@
       const meetingUrl = document.getElementById('teams-url').value;
       const template = document.getElementById('template-select').value;
       
-      // Add wave effect to button
+      // Add processing animation to button
       const button = this.querySelector('button');
       button.classList.remove('pulse-glow');
       button.classList.add('btn-processing');
@@ -644,11 +830,6 @@
         button.classList.remove('btn-processing');
         button.innerHTML = 'Generate Notes';
         button.disabled = false;
-        
-        // Add back the pulse effect
-        setTimeout(() => {
-          button.classList.add('pulse-glow');
-        }, 300);
         
         // Update meeting minutes section
         populateMeetingMinutes(meetingUrl, template);
@@ -719,164 +900,6 @@
         return 'Teams Meeting';
       }
     }
-    
-    // Template content generators (placeholder content)
-    function generateStandardMeetingContent() {
-      return `
-        <h3>Participants</h3>
-        <p>John Doe, Jane Smith, Bob Johnson, Alice Williams</p>
-        
-        <h3>Agenda</h3>
-        <p>1. Project status update<br>
-        2. Budget review<br>
-        3. Timeline adjustments<br>
-        4. Questions and next steps</p>
-        
-        <h3>Discussion Points</h3>
-        <p>The team discussed the current project status, highlighting that most milestones have been met on time. 
-        There were concerns about the integration phase which might require additional resources.</p>
-        
-        <p>Budget review showed that we are currently within the allocated budget, but there might be additional costs 
-        associated with the new requirements that came in last week.</p>
-        
-        <p>Timeline adjustments were proposed for the testing phase to accommodate the integration challenges.</p>
-        
-        <h3>Action Items</h3>
-        <ul>
-          <li>John to provide updated resource allocation plan by Friday</li>
-          <li>Jane to review the integration strategy and propose alternatives</li>
-          <li>Bob to update the project timeline and share with stakeholders</li>
-          <li>Alice to coordinate with the client about the new requirements</li>
-        </ul>
-        
-        <h3>Next Meeting</h3>
-        <p>Scheduled for next Tuesday at 10:00 AM</p>
-      `;
-    }
-    
-    function generateClientMeetingContent() {
-      return `
-        <h3>Client Information</h3>
-        <p>Client: Acme Corporation<br>
-        Representative: Sarah Johnson<br>
-        Contact: sarah@acmecorp.com</p>
-        
-        <h3>Meeting Objective</h3>
-        <p>To review current project deliverables and gather feedback on the proposed designs.</p>
-        
-        <h3>Product Presentation</h3>
-        <p>The team presented the latest prototype focusing on the user dashboard and reporting features.
-        The client was impressed with the intuitive design but had questions about customization options.</p>
-        
-        <h3>Client Feedback</h3>
-        <ul>
-          <li>Likes the overall design direction and color scheme</li>
-          <li>Wants more customization options for reports</li>
-          <li>Concerned about the loading time for data-heavy dashboards</li>
-          <li>Requested additional export formats (specifically PDF and Excel)</li>
-        </ul>
-        
-        <h3>Agreed Changes</h3>
-        <p>1. Add customizable report templates<br>
-        2. Optimize dashboard loading with progressive data loading<br>
-        3. Implement additional export options<br>
-        4. Adjust notification system based on feedback</p>
-        
-        <h3>Next Steps</h3>
-        <p>Schedule a follow-up demo in two weeks to review the implemented changes.</p>
-      `;
-    }
-    
-    function generateScrumMeetingContent() {
-      return `
-        <h3>Sprint Details</h3>
-        <p>Sprint #14<br>
-        Period: May 1 - May 14, 2023<br>
-        Story Points Committed: 34</p>
-        
-        <h3>Sprint Review</h3>
-        <p>Completed 28 out of 34 story points. Two stories moved to the next sprint due to unexpected complexity.</p>
-        
-        <h3>Completed Stories</h3>
-        <ul>
-          <li>PROJ-143: Implement user authentication - 8 points</li>
-          <li>PROJ-145: Design dashboard layout - 5 points</li>
-          <li>PROJ-146: Create data visualization components - 13 points</li>
-          <li>PROJ-147: Fix notification bugs - 2 points</li>
-        </ul>
-        
-        <h3>Carried Over Stories</h3>
-        <ul>
-          <li>PROJ-144: Implement API integration - 5 points (blocked by external dependency)</li>
-          <li>PROJ-148: Optimize mobile responsiveness - 3 points</li>
-        </ul>
-        
-        <h3>Sprint Retrospective</h3>
-        <p><strong>What went well:</strong><br>
-        - Completed user authentication ahead of schedule<br>
-        - Good collaboration between design and development teams</p>
-        
-        <p><strong>What could be improved:</strong><br>
-        - Better estimation for API integration tasks<br>
-        - Earlier identification of external dependencies</p>
-        
-        <h3>Action Items for Next Sprint</h3>
-        <ul>
-          <li>Create a dependency checklist for stories</li>
-          <li>Schedule a tech session for API integration challenges</li>
-          <li>Adjust story point estimation for integration tasks</li>
-        </ul>
-      `;
-    }
-    
-    function generateStandupMeetingContent() {
-      return `
-        <h3>Team Updates</h3>
-        
-        <p><strong>John (Frontend):</strong><br>
-        <em>Yesterday:</em> Completed the user profile component and fixed navigation bugs<br>
-        <em>Today:</em> Working on form validation and error handling<br>
-        <em>Blockers:</em> None</p>
-        
-        <p><strong>Jane (Backend):</strong><br>
-        <em>Yesterday:</em> Implemented the user authentication API endpoints<br>
-        <em>Today:</em> Working on data validation and security enhancements<br>
-        <em>Blockers:</em> Waiting for database access from operations</p>
-        
-        <p><strong>Bob (Design):</strong><br>
-        <em>Yesterday:</em> Finalized the dashboard mockups and shared with the team<br>
-        <em>Today:</em> Working on mobile responsive designs<br>
-        <em>Blockers:</em> Need feedback on the latest mockups</p>
-        
-        <p><strong>Alice (QA):</strong><br>
-        <em>Yesterday:</em> Created test cases for the authentication flow<br>
-        <em>Today:</em> Testing the profile component and reporting bugs<br>
-        <em>Blockers:</em> Need updated staging environment</p>
-        
-        <h3>Quick Announcements</h3>
-        <ul>
-          <li>Remember to update JIRA tickets by end of day</li>
-          <li>Deploy to staging scheduled for tomorrow at 2 PM</li>
-          <li>Team lunch on Friday to celebrate sprint completion</li>
-        </ul>
-      `;
-    }
-    
-    // Handle download button
-    document.getElementById('download-btn').addEventListener('click', function() {
-      alert('Downloading meeting minutes as PDF...');
-      // Here you would implement actual PDF download functionality
-    });
-    
-    // Handle share button
-    document.getElementById('share-btn').addEventListener('click', function() {
-      const shareOptions = ['Email', 'Teams', 'Slack', 'Copy link'];
-      const option = prompt('Choose sharing method:\n' + shareOptions.join('\n'));
-      if (option) {
-        alert('Sharing via ' + option + '...');
-        // Here you would implement actual sharing functionality
-      }
-    });
   </script>
 </body>
 </html>
