@@ -9,8 +9,7 @@
     body {
       background: linear-gradient(135deg, #6e8efb, #a777e3);
       min-height: 100vh;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: hidden;
       position: relative;
     }
     .container {
@@ -133,29 +132,25 @@
     .minutes-section {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 1s ease-in-out, opacity 1s ease-in-out;
+      transition: max-height 1s ease-in-out;
       margin-top: 50px;
-      opacity: 0;
-      margin-bottom: 100px;
     }
     
     .minutes-section.show {
-      max-height: 3000px;
-      opacity: 1;
+      max-height: 1500px;
     }
     
     .a4-paper {
       background: white;
       width: 210mm;
-      max-width: 100%;
-      height: auto;
-      min-height: 297mm;
+      height: 297mm;
       margin: 0 auto;
       padding: 30mm 20mm;
       box-shadow: 0 5px 25px rgba(0,0,0,0.2);
       border-radius: 5px;
       position: relative;
-      overflow-y: visible;
+      overflow-y: auto;
+      max-height: 80vh;
       text-align: left;
       font-family: 'Arial', sans-serif;
       font-size: 12pt;
@@ -456,16 +451,9 @@
         document.getElementById('minutes-section').classList.add('show');
         
         // Smooth scroll to the minutes section
-        setTimeout(() => {
-          document.getElementById('minutes-section').scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-          
-          // Ensure the body can scroll
-          document.body.style.overflow = 'auto';
-          document.body.style.height = 'auto';
-        }, 300);
+        document.getElementById('minutes-section').scrollIntoView({
+          behavior: 'smooth'
+        });
       }, 1500);
     });
     
