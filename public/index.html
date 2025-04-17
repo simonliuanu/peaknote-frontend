@@ -680,7 +680,7 @@
       z-index: 2000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.6s ease;
     }
 
     .share-success-animation.show {
@@ -688,24 +688,43 @@
     }
 
     .success-checkmark {
-      width: 80px;
-      height: 80px;
+      width: 120px;
+      height: 120px;
       background: linear-gradient(45deg, #00ffaa, #4776e6);
       border-radius: 50%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      transform: scale(0);
-      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(50px) scale(0);
+      opacity: 0;
+      transition: transform 0.8s cubic-bezier(0.18, 1.25, 0.6, 1.3), opacity 0.5s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     .share-success-animation.show .success-checkmark {
-      transform: scale(1);
+      transform: translateY(0) scale(1);
+      opacity: 1;
     }
 
     .success-checkmark i {
       color: white;
       font-size: 40px;
+      margin-bottom: 5px;
+    }
+    
+    .success-text {
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    
+    .success-text.show {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.5s 0.8s ease;
     }
   </style>
 </head>
@@ -799,6 +818,7 @@
   <div class="share-success-animation" id="success-animation">
     <div class="success-checkmark">
       <i class="fas fa-check"></i>
+      <div class="success-text" id="finish-text">Finish!</div>
     </div>
   </div>
 
@@ -989,8 +1009,14 @@
           const successAnim = document.getElementById('success-animation');
           successAnim.classList.add('show');
           
+          // Show the finish text after checkmark appears
+          setTimeout(() => {
+            document.getElementById('finish-text').classList.add('show');
+          }, 800);
+          
           setTimeout(() => {
             successAnim.classList.remove('show');
+            document.getElementById('finish-text').classList.remove('show');
             
             // Show confirmation with recipient list
             const recipientNames = Array.from(selectedUsers).map(item => {
@@ -998,7 +1024,7 @@
             }).join(', ');
             
             alert(`Meeting minutes sent to Outlook for: ${recipientNames}`);
-          }, 2000);
+          }, 3000);
         });
       }
       
