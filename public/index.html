@@ -7,9 +7,20 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      background-color: #150429;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(86, 10, 135, 0.8) 0%, rgba(86, 10, 135, 0) 20%),
+        radial-gradient(circle at 60% 20%, rgba(197, 52, 52, 0.8) 0%, rgba(197, 52, 52, 0) 25%),
+        radial-gradient(circle at 90% 50%, rgba(14, 92, 55, 0.8) 0%, rgba(14, 92, 55, 0) 25%),
+        radial-gradient(circle at 33% 70%, rgba(205, 114, 9, 0.8) 0%, rgba(205, 114, 9, 0) 25%),
+        radial-gradient(circle at 80% 85%, rgba(14, 60, 95, 0.8) 0%, rgba(14, 60, 95, 0) 25%),
+        radial-gradient(circle at 65% 60%, rgba(128, 20, 83, 0.8) 0%, rgba(128, 20, 83, 0) 20%),
+        radial-gradient(circle at 15% 10%, rgba(101, 87, 15, 0.8) 0%, rgba(101, 87, 15, 0) 20%),
+        radial-gradient(circle at 40% 50%, rgba(74, 10, 135, 0.8) 0%, rgba(74, 10, 135, 0) 30%),
+        radial-gradient(circle at 10% 90%, rgba(167, 28, 70, 0.8) 0%, rgba(167, 28, 70, 0) 25%);
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       position: relative;
     }
     .container {
@@ -130,27 +141,28 @@
     
     /* Meeting minutes section styles */
     .minutes-section {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 1s ease-in-out;
+      max-height: none;
+      overflow: visible;
+      transition: opacity 1s ease-in-out;
+      opacity: 0;
       margin-top: 50px;
     }
     
     .minutes-section.show {
-      max-height: 1500px;
+      opacity: 1;
     }
     
     .a4-paper {
       background: white;
       width: 210mm;
-      height: 297mm;
-      margin: 0 auto;
+      height: auto;
+      min-height: 297mm;
+      margin: 0 auto 30px;
       padding: 30mm 20mm;
       box-shadow: 0 5px 25px rgba(0,0,0,0.2);
       border-radius: 5px;
       position: relative;
-      overflow-y: auto;
-      max-height: 80vh;
+      overflow-y: visible;
       text-align: left;
       font-family: 'Arial', sans-serif;
       font-size: 12pt;
@@ -243,28 +255,6 @@
     }
 
     /* End meeting minutes section styles */
-
-    /* Add glow effect to particles */
-    #particles-js canvas {
-      filter: blur(1px) brightness(1.5);
-      mix-blend-mode: screen;
-    }
-    
-    .particle {
-      border-radius: 50%;
-      box-shadow: 0 0 30px 10px rgba(255, 255, 255, 0.5);
-    }
-    
-    /* Custom animation for particle glow */
-    @keyframes glowPulse {
-      0% { filter: blur(1px) brightness(1.2); }
-      50% { filter: blur(2px) brightness(1.8); }
-      100% { filter: blur(1px) brightness(1.2); }
-    }
-    
-    #particles-js {
-      animation: glowPulse 8s ease-in-out infinite;
-    }
   </style>
 </head>
 <body>
@@ -333,58 +323,51 @@
     particlesJS("particles-js", {
       "particles": {
         "number": {
-          "value": 25,
+          "value": 80,
           "density": {
             "enable": true,
-            "value_area": 1000
+            "value_area": 800
           }
         },
         "color": {
-          "value": ["#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#9400D3", "#FF1493", "#00FFFF"]
+          "value": "#ffffff"
         },
         "shape": {
           "type": "circle",
           "stroke": {
-            "width": 4,
-            "color": "random"
+            "width": 0,
+            "color": "#000000"
           }
         },
         "opacity": {
           "value": 0.5,
-          "random": true,
+          "random": false,
           "anim": {
-            "enable": true,
-            "speed": 0.2,
-            "opacity_min": 0.1,
-            "sync": false
+            "enable": false
           }
         },
         "size": {
-          "value": 100,
+          "value": 3,
           "random": true,
           "anim": {
-            "enable": true,
-            "speed": 1.5,
-            "size_min": 40,
-            "sync": false
+            "enable": false
           }
         },
         "line_linked": {
-          "enable": false
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
         },
         "move": {
           "enable": true,
-          "speed": 1,
+          "speed": 2,
           "direction": "none",
-          "random": true,
+          "random": false,
           "straight": false,
           "out_mode": "out",
-          "bounce": false,
-          "attract": {
-            "enable": true,
-            "rotateX": 800,
-            "rotateY": 1200
-          }
+          "bounce": false
         }
       },
       "interactivity": {
