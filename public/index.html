@@ -551,6 +551,162 @@
     }
     
     /* End copyright footer styles */
+
+    /* Share Modal Styles */
+    .modal-content {
+      background-color: rgba(30, 10, 60, 0.95);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      color: white;
+    }
+
+    .modal-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-close {
+      filter: invert(1) brightness(200%);
+    }
+
+    .user-list {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 10px 0;
+    }
+
+    .user-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .user-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .user-item.selected {
+      background: rgba(142, 84, 233, 0.2);
+      border: 1px solid rgba(142, 84, 233, 0.5);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff00cc, #3333ff);
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 16px;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-name {
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .user-email {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .user-checkbox {
+      margin-left: 10px;
+      width: 20px;
+      height: 20px;
+      accent-color: #8e54e9;
+    }
+
+    #send-btn {
+      position: relative;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 0;
+      color: white;
+      font-weight: 500;
+      letter-spacing: 1px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      z-index: 1;
+      box-shadow: none;
+    }
+
+    #send-btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #8e54e9, #4776e6);
+      z-index: -1;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #send-btn:hover:before {
+      transform: scale(1.05);
+    }
+
+    .share-success-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .share-success-animation.show {
+      opacity: 1;
+    }
+
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, #00ffaa, #4776e6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .share-success-animation.show .success-checkmark {
+      transform: scale(1);
+    }
+
+    .success-checkmark i {
+      color: white;
+      font-size: 40px;
+    }
   </style>
 </head>
 <body>
@@ -611,11 +767,40 @@
     </div>
   </div>
 
+  <!-- Share Modal -->
+  <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shareModalLabel">Share Meeting Minutes</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-white mb-3">Select recipients to share the meeting minutes via Outlook:</p>
+          <div class="user-list">
+            <!-- User items will be populated here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="send-btn">Send to Selected</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="copyright-footer">
     <div class="container">
       <p>© PeakNote Team, 2025</p>
     </div>
   </footer>
+
+  <!-- Share Success Animation -->
+  <div class="share-success-animation" id="success-animation">
+    <div class="success-checkmark">
+      <i class="fas fa-check"></i>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -773,12 +958,47 @@
           setTimeout(() => {
             this.classList.remove('active-button');
             
-            const shareOptions = ['Email', 'Teams', 'Slack', 'Copy link'];
-            const option = prompt('Choose sharing method:\n' + shareOptions.join('\n'));
-            if (option) {
-              alert('Sharing via ' + option + '...');
-            }
+            // Populate user list and show modal
+            populateUserList();
+            const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+            shareModal.show();
           }, 300);
+        });
+      }
+      
+      // Setup send button in modal
+      const sendBtn = document.getElementById('send-btn');
+      if (sendBtn) {
+        sendBtn.addEventListener('click', function() {
+          const selectedUsers = document.querySelectorAll('.user-item.selected');
+          if (selectedUsers.length === 0) {
+            alert('Please select at least one recipient');
+            return;
+          }
+          
+          // Get selected user emails
+          const recipients = Array.from(selectedUsers).map(item => {
+            return item.querySelector('.user-email').textContent;
+          });
+          
+          // Close modal
+          const shareModal = bootstrap.Modal.getInstance(document.getElementById('shareModal'));
+          shareModal.hide();
+          
+          // Show success animation
+          const successAnim = document.getElementById('success-animation');
+          successAnim.classList.add('show');
+          
+          setTimeout(() => {
+            successAnim.classList.remove('show');
+            
+            // Show confirmation with recipient list
+            const recipientNames = Array.from(selectedUsers).map(item => {
+              return item.querySelector('.user-name').textContent;
+            }).join(', ');
+            
+            alert(`Meeting minutes sent to Outlook for: ${recipientNames}`);
+          }, 2000);
         });
       }
       
@@ -805,6 +1025,55 @@
           });
         });
       }
+    }
+
+    // Function to populate user list in share modal
+    function populateUserList() {
+      const userList = document.querySelector('.user-list');
+      
+      // Sample team members data
+      const teamMembers = [
+        { name: 'John Smith', email: 'john.smith@company.com', dept: 'Engineering' },
+        { name: 'Sarah Johnson', email: 'sarah.j@company.com', dept: 'Product Management' },
+        { name: 'Michael Chen', email: 'michael.c@company.com', dept: 'Design' },
+        { name: 'Emily Davis', email: 'emily.d@company.com', dept: 'Marketing' },
+        { name: 'Alex Wong', email: 'alex.w@company.com', dept: 'Engineering' },
+        { name: 'Jessica Miller', email: 'jessica.m@company.com', dept: 'Sales' },
+        { name: 'David Taylor', email: 'david.t@company.com', dept: 'Operations' }
+      ];
+      
+      // Clear previous content
+      userList.innerHTML = '';
+      
+      // Add each user to the list
+      teamMembers.forEach(member => {
+        const userItem = document.createElement('div');
+        userItem.className = 'user-item';
+        
+        // Get initials for avatar
+        const initials = member.name.split(' ')
+          .map(name => name[0])
+          .join('');
+        
+        userItem.innerHTML = `
+          <div class="user-avatar">${initials}</div>
+          <div class="user-info">
+            <div class="user-name">${member.name}</div>
+            <div class="user-email">${member.email}</div>
+            <small>${member.dept}</small>
+          </div>
+          <input type="checkbox" class="user-checkbox">
+        `;
+        
+        // Handle selection
+        userItem.addEventListener('click', function() {
+          this.classList.toggle('selected');
+          const checkbox = this.querySelector('.user-checkbox');
+          checkbox.checked = this.classList.contains('selected');
+        });
+        
+        userList.appendChild(userItem);
+      });
     }
 
     // Form submission handler
