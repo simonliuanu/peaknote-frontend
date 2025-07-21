@@ -1,0 +1,135 @@
+/* App component styles */
+.App {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 800px;
+  margin-top: 100px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Logo and header styles */
+.logo {
+  margin-bottom: 30px;
+  animation: fadeInDown 1s ease;
+  position: relative;
+}
+
+.bounce-in {
+  animation: bounce-in 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #74ebd5, #ACB6E5);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  display: inline-block;
+  filter: drop-shadow(0 0 15px rgba(116, 235, 213, 0.5));
+  animation: shine 3s linear infinite;
+}
+
+.typing-container {
+  height: 30px;
+  overflow: hidden;
+}
+
+.typing-animation {
+  border-right: 3px solid;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+  position: relative;
+}
+
+/* Basic text styles */
+h1 {
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+  transform-style: preserve-3d;
+  perspective: 500px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.lead {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Copyright footer styles */
+.copyright-footer {
+  position: relative;
+  z-index: 10;
+  padding: 20px 0;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.copyright-footer p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: rgba(255,255,255,0.75) }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate3d(1, 1, 0, 0deg); }
+  25% { transform: translateY(-10px) rotate3d(1, 1, 0, 3deg); }
+  50% { transform: translateY(0) rotate3d(1, 1, 0, 0deg); }
+  75% { transform: translateY(10px) rotate3d(1, 1, 0, -3deg); }
+}
