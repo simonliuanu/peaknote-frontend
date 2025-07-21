@@ -1,0 +1,205 @@
+/* Meeting Minutes styles */
+.minutes-section {
+  max-height: none;
+  overflow: visible;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  margin-top: 50px;
+}
+
+.minutes-section.show {
+  opacity: 1;
+}
+
+.a4-paper {
+  background: white;
+  width: 210mm;
+  height: auto;
+  min-height: 297mm;
+  margin: 0 auto 30px;
+  padding: 30mm 20mm;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  position: relative;
+  overflow-y: visible;
+  text-align: left;
+  font-family: 'Arial', sans-serif;
+  font-size: 12pt;
+  line-height: 1.5;
+  transform-origin: top center;
+}
+
+.paper-reveal {
+  animation: paperReveal 1.2s ease-out forwards;
+  transform: scaleY(0);
+}
+
+.minutes-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.minutes-header h2 {
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.minutes-header p {
+  color: #666;
+  font-size: 10pt;
+}
+
+.minutes-content {
+  min-height: 200mm;
+}
+
+.minutes-content h3 {
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.minutes-content p {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.minutes-content ul {
+  color: #333;
+  padding-left: 20px;
+}
+
+.minutes-content li {
+  margin-bottom: 5px;
+}
+
+.chat-bubble {
+  animation: floatUp 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Action buttons styles */
+.action-buttons {
+  margin-top: 30px;
+}
+
+.tab-buttons {
+  display: flex;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  gap: 20px;
+  justify-content: center;
+}
+
+.tab-button {
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 50px;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: visible;
+}
+
+.tab-button span {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.tab-button i {
+  margin-right: 8px;
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.tab-button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover:before {
+  transform: perspective(500px) rotateX(10deg) scale(1.05);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.tab-button:after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  background: linear-gradient(45deg, #ff00cc, #3333ff, #00ffaa);
+  z-index: -1;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.3s ease;
+}
+
+.tab-button:hover:after {
+  opacity: 1;
+}
+
+.tab-button:hover i {
+  transform: translateY(-3px) scale(1.2);
+  color: #00ffaa;
+}
+
+.tab-button:active:before,
+.tab-button.active-button:before {
+  transform: perspective(500px) rotateX(10deg) scale(0.95);
+}
+
+/* Animations */
+@keyframes paperReveal {
+  0% {
+    transform: scaleY(0);
+    opacity: 0.3;
+  }
+  60% {
+    transform: scaleY(1.03);
+    opacity: 1;
+  }
+  80% {
+    transform: scaleY(0.97);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes floatUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
