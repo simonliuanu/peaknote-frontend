@@ -12,7 +12,10 @@
 }
 
 .a4-paper {
-  background: white;
+  background: linear-gradient(rgba(66, 16, 112, 0.15), rgba(75, 0, 130, 0.12)), rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(138, 43, 226, 0.1);
   width: 210mm;
   height: auto;
   min-height: 297mm;
