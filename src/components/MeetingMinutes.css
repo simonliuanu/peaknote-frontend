@@ -29,6 +29,7 @@
   font-size: 12pt;
   line-height: 1.5;
   transform-origin: top center;
+  color: #fff;
 }
 
 .paper-reveal {
@@ -204,4 +205,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.minutes-header h2,
+.minutes-header p,
+.minutes-content h3,
+.minutes-content p,
+.minutes-content ul {
+  color: inherit;
+  font-family: inherit;
 }
