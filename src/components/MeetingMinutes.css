@@ -215,3 +215,68 @@
   color: inherit;
   font-family: inherit;
 }
+
+/* Markdown content styling for white fonts */
+.markdown-content {
+  color: #fff;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  color: #fff;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.markdown-content p {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  color: #fff;
+  padding-left: 20px;
+}
+
+.markdown-content li {
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.markdown-content blockquote {
+  color: #fff;
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  padding-left: 15px;
+  margin: 15px 0;
+}
+
+.markdown-content code {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+.markdown-content pre {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.markdown-content strong {
+  color: #fff;
+  font-weight: bold;
+}
+
+.markdown-content em {
+  color: #fff;
+  font-style: italic;
+}
