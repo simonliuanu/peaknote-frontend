@@ -11,24 +11,36 @@ const MeetingForm = ({ onSubmit }) => {
     setIsProcessing(true);
 
     try {
-      // Call backend API
-      const response = await fetch('http://localhost:3001/api/meetings/generate', {
-        method: 'POST',
+      // Encode the meeting URL for the API call
+      const encodedUrl = encodeURIComponent(meetingUrl);
+      const apiUrl = `https://68316233e15d.ngrok-free.app/transcript/by-url?url=${encodedUrl}`;
+      
+      // Call transcript API
+      const response = await fetch(apiUrl, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ meetingUrl, template }),
+          'ngrok-skip-browser-warning': 'true'
+        }
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate meeting notes');
+        throw new Error('Failed to generate meeting transcript');
       }
 
-      const data = await response.json();
-      onSubmit(data);
+      const transcriptData = await response.json();
+      
+      // Structure the data to match what the app expects
+      const formattedData = {
+        meetingUrl,
+        template,
+        transcript: transcriptData,
+        generatedAt: new Date().toISOString()
+      };
+      
+      onSubmit(formattedData);
     } catch (error) {
-      console.error('Error generating meeting notes:', error);
-      alert('Failed to generate meeting notes. Please try again.');
+      console.error('Error generating meeting transcript:', error);
+      alert('Failed to generate meeting transcript. Please try again.');
     } finally {
       setIsProcessing(false);
     }
@@ -69,7 +81,7 @@ const MeetingForm = ({ onSubmit }) => {
           disabled={isProcessing}
         >
           <span style={{ position: 'relative', zIndex: 2 }}>
-            {isProcessing ? 'Processing...' : 'Generate Notes'}
+            {isProcessing ? 'Generating...' : 'Generate Notes'}
           </span>
         </button>
       </form>
