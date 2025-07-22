@@ -11,9 +11,8 @@ const MeetingForm = ({ onSubmit }) => {
     setIsProcessing(true);
 
     try {
-      // Encode the meeting URL for the API call
-      const encodedUrl = encodeURIComponent(meetingUrl);
-      const apiUrl = `https://68316233e15d.ngrok-free.app/transcript/by-url?url=${encodedUrl}`;
+      // Use the meeting URL directly as it should already be properly encoded
+      const apiUrl = `https://68316233e15d.ngrok-free.app/transcript/by-url?url=${meetingUrl}`;
       
       // Call transcript API
       const response = await fetch(apiUrl, {
@@ -33,7 +32,7 @@ const MeetingForm = ({ onSubmit }) => {
       const formattedData = {
         meetingUrl,
         template,
-        transcript: transcriptData,
+        notes: transcriptData, // Changed from 'transcript' to 'notes' to match MeetingMinutes expectation
         generatedAt: new Date().toISOString()
       };
       

@@ -51,38 +51,55 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
   const generateContent = () => {
     const notes = meetingData.notes;
     if (!notes) return <p>No meeting notes available.</p>;
+    
+    // Handle transcript string from API
+    if (typeof notes === 'object' && notes.transcript) {
+      return (
+        <div>
+          <h3>Meeting Transcript</h3>
+          <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', textAlign: 'left' }}>
+            {notes.transcript}
+          </div>
+        </div>
+      );
+    }
+    
+    // Handle structured notes format (legacy)
+    if (typeof notes === 'object' && (notes.agenda || notes.participants || notes.actionItems || notes.decisions)) {
+      return (
+        <>
+          <h3>Agenda</h3>
+          <ul>
+            {notes.agenda?.map((item, index) => (
+              <li key={index}>{item}</li>
+            )) || <li>No agenda items</li>}
+          </ul>
+          
+          <h3>Participants</h3>
+          <ul>
+            {notes.participants?.map((participant, index) => (
+              <li key={index}>{participant}</li>
+            )) || <li>No participants listed</li>}
+          </ul>
+          
+          <h3>Action Items</h3>
+          <ul>
+            {notes.actionItems?.map((item, index) => (
+              <li key={index}>{item}</li>
+            )) || <li>No action items</li>}
+          </ul>
+          
+          <h3>Decisions</h3>
+          <ul>
+            {notes.decisions?.map((decision, index) => (
+              <li key={index}>{decision}</li>
+            )) || <li>No decisions recorded</li>}
+          </ul>
+        </>
+      );
+    }
 
-    return (
-      <>
-        <h3>Agenda</h3>
-        <ul>
-          {notes.agenda?.map((item, index) => (
-            <li key={index}>{item}</li>
-          )) || <li>No agenda items</li>}
-        </ul>
-        
-        <h3>Participants</h3>
-        <ul>
-          {notes.participants?.map((participant, index) => (
-            <li key={index}>{participant}</li>
-          )) || <li>No participants listed</li>}
-        </ul>
-        
-        <h3>Action Items</h3>
-        <ul>
-          {notes.actionItems?.map((item, index) => (
-            <li key={index}>{item}</li>
-          )) || <li>No action items</li>}
-        </ul>
-        
-        <h3>Decisions</h3>
-        <ul>
-          {notes.decisions?.map((decision, index) => (
-            <li key={index}>{decision}</li>
-          )) || <li>No decisions recorded</li>}
-        </ul>
-      </>
-    );
+    return <p>No meeting content available.</p>;
   };
 
   return (
