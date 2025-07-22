@@ -44,7 +44,7 @@ const MeetingForm = ({ onSubmit }) => {
     } finally {
       setIsProcessing(false);
       setIsFinished(true); 
-    }, 1500);
+    }
   };
 
   const handleUrlChange = (e) => {
