@@ -1,5 +1,6 @@
 /* Meeting Form styles */
 .meeting-form-container {
+  width: 210mm;
   background-color: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -137,6 +138,15 @@
   background: linear-gradient(90deg, #3333ff, #ff00cc, #3333ff);
   background-size: 200% 100%;
   animation: gradient-move 2s infinite linear;
+}
+
+.btn-primary.btn-finished:before {
+  background: linear-gradient(90deg,
+    #1310604f 0%,
+    #9386a756 43%,
+    #6B74D5 77%,
+    #0000004f 100%
+  );
 }
 
 @keyframes gradient-move {

@@ -5,6 +5,7 @@ const MeetingForm = ({ onSubmit }) => {
   const [meetingUrl, setMeetingUrl] = useState('');
   const [template, setTemplate] = useState('standard');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +43,17 @@ const MeetingForm = ({ onSubmit }) => {
       alert('Failed to generate meeting transcript. Please try again.');
     } finally {
       setIsProcessing(false);
-    }
+      setIsFinished(true); 
+    }, 1500);
+  };
+
+  const handleUrlChange = (e) => {
+    setMeetingUrl(e.target.value);
+    setIsFinished(false);
+  };
+  const handleTemplateChange = (e) => {
+    setTemplate(e.target.value);
+    setIsFinished(false);
   };
 
   return (
@@ -56,7 +67,7 @@ const MeetingForm = ({ onSubmit }) => {
               id="teams-url"
               placeholder="Enter Teams meeting URL"
               value={meetingUrl}
-              onChange={(e) => setMeetingUrl(e.target.value)}
+              onChange={handleUrlChange}
               required
             />
           </div>
@@ -65,7 +76,7 @@ const MeetingForm = ({ onSubmit }) => {
               className="form-select"
               id="template-select"
               value={template}
-              onChange={(e) => setTemplate(e.target.value)}
+              onChange={handleTemplateChange}
             >
               <option value="standard">Standard meeting</option>
               <option value="client">Client meeting</option>
@@ -76,7 +87,7 @@ const MeetingForm = ({ onSubmit }) => {
         </div>
         <button 
           type="submit" 
-          className={`btn btn-primary ${isProcessing ? 'btn-processing' : ''}`}
+          className={`btn btn-primary${isProcessing ? ' btn-processing' : ''}${isFinished ? ' btn-finished' : ''}`}
           disabled={isProcessing}
         >
           <span style={{ position: 'relative', zIndex: 2 }}>
