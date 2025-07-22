@@ -1,0 +1,117 @@
+import React, { useEffect, useRef } from 'react';
+import './MeetingMinutes.css';
+
+const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
+  const minutesRef = useRef(null);
+
+  useEffect(() => {
+    if (minutesRef.current) {
+      minutesRef.current.classList.add('show');
+      minutesRef.current.scrollIntoView({ behavior: 'smooth' });
+
+      // Add paper reveal animation
+      const paper = minutesRef.current.querySelector('.a4-paper');
+      if (paper) {
+        paper.classList.add('paper-reveal');
+      }
+
+      // Animate content elements
+      setTimeout(() => {
+        const paragraphs = minutesRef.current.querySelectorAll('.minutes-content p, .minutes-content h3, .minutes-content ul');
+        paragraphs.forEach((p, index) => {
+          p.classList.add('chat-bubble');
+          p.style.animationDelay = (0.8 + index * 0.1) + 's';
+        });
+      }, 700);
+    }
+  }, [meetingData]);
+
+  const handleDownload = () => {
+    onDownload();
+    alert('Downloading meeting minutes as PDF...');
+  };
+
+  const handleShare = () => {
+    onShare();
+  };
+
+  const getNameFromUrl = (url) => {
+    try {
+      const urlObj = new URL(url);
+      if (urlObj.pathname.includes('/')) {
+        const parts = urlObj.pathname.split('/').filter(p => p);
+        return parts[parts.length - 1].replace(/-/g, ' ');
+      }
+      return 'Teams Meeting';
+    } catch(e) {
+      return 'Teams Meeting';
+    }
+  };
+
+  const generateContent = () => {
+    const notes = meetingData.notes;
+    if (!notes) return <p>No meeting notes available.</p>;
+
+    return (
+      <>
+        <h3>Agenda</h3>
+        <ul>
+          {notes.agenda?.map((item, index) => (
+            <li key={index}>{item}</li>
+          )) || <li>No agenda items</li>}
+        </ul>
+        
+        <h3>Participants</h3>
+        <ul>
+          {notes.participants?.map((participant, index) => (
+            <li key={index}>{participant}</li>
+          )) || <li>No participants listed</li>}
+        </ul>
+        
+        <h3>Action Items</h3>
+        <ul>
+          {notes.actionItems?.map((item, index) => (
+            <li key={index}>{item}</li>
+          )) || <li>No action items</li>}
+        </ul>
+        
+        <h3>Decisions</h3>
+        <ul>
+          {notes.decisions?.map((decision, index) => (
+            <li key={index}>{decision}</li>
+          )) || <li>No decisions recorded</li>}
+        </ul>
+      </>
+    );
+  };
+
+  return (
+    <div className="minutes-section" ref={minutesRef}>
+      <div className="chat-bubble" style={{ animationDelay: '0.1s' }}>
+        <div className="a4-paper">
+          <div className="minutes-header">
+            <h2>Meeting Summary: {getNameFromUrl(meetingData.meetingUrl)}</h2>
+            <p>Date: {new Date().toLocaleDateString()}</p>
+            <p>Template: <span>{meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</span></p>
+          </div>
+          <div className="minutes-content">
+            {generateContent()}
+          </div>
+        </div>
+      </div>
+      
+      <div className="action-buttons chat-bubble" style={{ animationDelay: '0.3s' }}>
+        <div className="tab-buttons">
+          <button className="tab-button" onClick={handleDownload}>
+            <span><i className="fas fa-download"></i> Download</span>
+          </button>
+          <button className="tab-button" onClick={handleShare}>
+            <span><i className="fas fa-share-alt"></i> Share</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MeetingMinutes;
