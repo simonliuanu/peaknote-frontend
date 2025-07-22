@@ -21,6 +21,7 @@
   min-height: 297mm;
   margin: 0 auto 30px;
   padding: 30mm 20mm;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 5px 25px rgba(0,0,0,0.2);
   border-radius: 5px;
   position: relative;
@@ -46,11 +47,11 @@
 
 .minutes-header h2 {
   margin-bottom: 5px;
-  color: #333;
+  color: #eae9e9;
 }
 
 .minutes-header p {
-  color: #666;
+  color: #eae9e9;
   font-size: 10pt;
 }
 
@@ -59,18 +60,18 @@
 }
 
 .minutes-content h3 {
-  color: #333;
+  color: #eae9e9;
   margin-top: 20px;
   margin-bottom: 10px;
 }
 
 .minutes-content p {
-  color: #333;
+  color: #eae9e9;
   margin-bottom: 10px;
 }
 
 .minutes-content ul {
-  color: #333;
+  color: #eae9e9;
   padding-left: 20px;
 }
 

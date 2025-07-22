@@ -55,6 +55,16 @@ function App() {
   return (
     <div className="App">
       {/* Particles background */}
+      <div className="background-video-wrapper">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="background-video"
+          src="/background.mp4"
+        />
+      </div>
       <div id="particles-js"></div>
       
       <div className="container text-center">

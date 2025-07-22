@@ -133,3 +133,29 @@ h1 {
   50% { transform: translateY(0) rotate3d(1, 1, 0, 0deg); }
   75% { transform: translateY(10px) rotate3d(1, 1, 0, -3deg); }
 }
+
+.background-video-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vh;
+  height: 100vw;
+  object-fit: cover;
+  min-width: 0;
+  min-height: 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5; 
+}

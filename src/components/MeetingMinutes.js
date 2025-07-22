@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import './MeetingMinutes.css';
 
+import MinutesToolbar from './MinutesToolbar';
+
 const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
   const minutesRef = useRef(null);
 
@@ -105,6 +107,10 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
 
   return (
     <div className="minutes-section" ref={minutesRef}>
+      <MinutesToolbar
+      onLeftIconClick={idx => { /* 这里可以写左侧图标点击逻辑 */ }}
+      onRightIconClick={idx => { /* 这里可以写右侧图标点击逻辑 */ }}
+      />
       <div className="chat-bubble" style={{ animationDelay: '0.1s' }}>
         <div className="a4-paper">
           <div className="minutes-header">
