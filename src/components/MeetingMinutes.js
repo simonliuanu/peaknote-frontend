@@ -92,7 +92,6 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
           <div className="minutes-header">
             <h2>Meeting Summary: {getNameFromUrl(meetingData.meetingUrl)}</h2>
             <p>Date: {new Date().toLocaleDateString()}</p>
-<<<<<<< HEAD
             <p>Template: <span>{meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</span></p>
           </div>
           <div className="minutes-content">
