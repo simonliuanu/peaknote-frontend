@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
 import './MeetingMinutes.css';
 
 const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
@@ -57,8 +58,8 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       return (
         <div>
           <h3>Meeting Transcript</h3>
-          <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', textAlign: 'left' }}>
-            {notes.transcript}
+          <div className="markdown-content">
+            <ReactMarkdown>{notes.transcript}</ReactMarkdown>
           </div>
         </div>
       );
