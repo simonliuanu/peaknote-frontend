@@ -29,27 +29,27 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     }
   }, [meetingData]);
 
-  const handleDownload = () => {
-    onDownload();
-    alert('Downloading meeting minutes as PDF...');
-  };
+  // const handleDownload = () => {
+  //   onDownload();
+  //   alert('Downloading meeting minutes as PDF...');
+  // };
 
-  const handleShare = () => {
-    onShare();
-  };
+  // const handleShare = () => {
+  //   onShare();
+  // };
 
-  const getNameFromUrl = (url) => {
-    try {
-      const urlObj = new URL(url);
-      if (urlObj.pathname.includes('/')) {
-        const parts = urlObj.pathname.split('/').filter(p => p);
-        return parts[parts.length - 1].replace(/-/g, ' ');
-      }
-      return 'Teams Meeting';
-    } catch(e) {
-      return 'Teams Meeting';
-    }
-  };
+  // const getNameFromUrl = (url) => {
+  //   try {
+  //     const urlObj = new URL(url);
+  //     if (urlObj.pathname.includes('/')) {
+  //       const parts = urlObj.pathname.split('/').filter(p => p);
+  //       return parts[parts.length - 1].replace(/-/g, ' ');
+  //     }
+  //     return 'Teams Meeting';
+  //   } catch(e) {
+  //     return 'Teams Meeting';
+  //   }
+  // };
 
   const generateContent = () => {
     const notes = meetingData.notes;
@@ -59,7 +59,6 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     if (typeof notes === 'object' && notes.transcript) {
       return (
         <div>
-          <h3>Meeting Transcript</h3>
           <div className="markdown-content">
             <ReactMarkdown>{notes.transcript}</ReactMarkdown>
           </div>
@@ -112,18 +111,14 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       onRightIconClick={idx => { /* 这里可以写右侧图标点击逻辑 */ }}
       />
       <div className="chat-bubble" style={{ animationDelay: '0.1s' }}>
-        <div className="a4-paper">
-          <div className="minutes-header">
-            <h2>Meeting Summary: {getNameFromUrl(meetingData.meetingUrl)}</h2>
-            <p>Date: {new Date().toLocaleDateString()}</p>
-            <p>Template: <span>{meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</span></p>
-          </div>
+        <div className="a4-paper"> 
           <div className="minutes-content">
             {generateContent()}
           </div>
         </div>
       </div>
       
+      {/*
       <div className="action-buttons chat-bubble" style={{ animationDelay: '0.3s' }}>
         <div className="tab-buttons">
           <button className="tab-button" onClick={handleDownload}>
@@ -134,6 +129,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
           </button>
         </div>
       </div>
+      */}
     </div>
   );
 };

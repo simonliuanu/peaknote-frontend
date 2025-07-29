@@ -29,24 +29,24 @@ function App() {
     setMeetingData(data);
   };
 
-  const handleDownload = () => {
-    console.log('Download meeting minutes');
-  };
+  // const handleDownload = () => {
+  //   console.log('Download meeting minutes');
+  // };
 
-  const handleShare = () => {
-    setShowShareModal(true);
-  };
+  // const handleShare = () => {
+  //   setShowShareModal(true);
+  // };
 
-  const handleShareSend = (recipients) => {
-    setShowShareModal(false);
-    setShowSuccessAnimation(true);
+  // const handleShareSend = (recipients) => {
+  //   setShowShareModal(false);
+  //   setShowSuccessAnimation(true);
 
-    // Show confirmation after animation
-    setTimeout(() => {
-      const recipientNames = recipients.map(r => r.name).join(', ');
-      alert(`Meeting minutes sent to Outlook for: ${recipientNames}`);
-    }, 3200);
-  };
+  //   // Show confirmation after animation
+  //   setTimeout(() => {
+  //     const recipientNames = recipients.map(r => r.name).join(', ');
+  //     alert(`Meeting minutes sent to Outlook for: ${recipientNames}`);
+  //   }, 3200);
+  // };
 
   const handleSuccessComplete = () => {
     setShowSuccessAnimation(false);
@@ -87,8 +87,8 @@ function App() {
         {meetingData && (
           <MeetingMinutes 
             meetingData={meetingData}
-            onDownload={handleDownload}
-            onShare={handleShare}
+            // onDownload={handleDownload}
+            // onShare={handleShare}
           />
         )}
       </div>
@@ -104,7 +104,7 @@ function App() {
       <ShareModal 
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        onSend={handleShareSend}
+        // onSend={handleShareSend}
       />
 
       {/* Success Animation */}
