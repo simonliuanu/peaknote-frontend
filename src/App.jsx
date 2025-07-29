@@ -71,7 +71,7 @@ function App() {
         {/* Header */}
         <div className="logo">
           <h1 className="bounce-in">
-            Welcome to <span className="text-gradient">PeakNote</span>
+            <span className="text-gradient">PEAKNOTE</span>
           </h1>
           <div className="typing-container">
             <p className="lead typing-animation" key={currentTypingMessage}>

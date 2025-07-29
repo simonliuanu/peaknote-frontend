@@ -3,7 +3,7 @@ import './MeetingForm.css';
 
 const MeetingForm = ({ onSubmit }) => {
   const [meetingUrl, setMeetingUrl] = useState('');
-  const [template, setTemplate] = useState('standard');
+  const [template, setTemplate] = useState('smart');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
@@ -72,17 +72,13 @@ const MeetingForm = ({ onSubmit }) => {
             />
           </div>
           <div className="col-md-4">
-            <select
-              className="form-select"
+            <input
+              type="text"
+              className="form-control"
               id="template-select"
-              value={template}
-              onChange={handleTemplateChange}
-            >
-              <option value="standard">Standard meeting</option>
-              <option value="client">Client meeting</option>
-              <option value="scrum">Scrum meeting</option>
-              <option value="standup">Daily standup</option>
-            </select>
+              value="    Smart Mode(AI Driven)"
+              readOnly
+            />
           </div>
         </div>
         <button 
