@@ -35,13 +35,13 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
 
   const handleDownload = async () => {
     try {
-      // 显示下载提示
-      onDownload();
+      // Show download notification
+      if (onDownload) onDownload();
       
-      // 获取当前编辑后的内容
+      // Get current edited content
       const currentContent = getFormattedContent();
       
-      // 创建专门用于PDF的隐藏元素
+      // Create hidden element specifically for PDF
       const pdfContainer = document.createElement('div');
       pdfContainer.style.position = 'absolute';
       pdfContainer.style.left = '-9999px';
@@ -54,7 +54,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       pdfContainer.style.fontSize = '14px';
       pdfContainer.style.lineHeight = '1.6';
       
-      // 添加会议纪要内容（包含用户编辑的格式化）
+      // Add meeting minutes content (including user-edited formatting)
       pdfContainer.innerHTML = `
         <div style="margin-bottom: 30px;">
           <h1 style="color: #000000; margin-bottom: 10px; font-size: 24px;">Meeting Summary: ${getNameFromUrl(meetingData.meetingUrl)}</h1>
@@ -66,12 +66,12 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
         </div>
       `;
       
-      // 添加到DOM
+      // Add to DOM
       document.body.appendChild(pdfContainer);
       
-      // 使用html2canvas将元素转换为canvas
+      // Use html2canvas to convert element to canvas
       const canvas = await html2canvas(pdfContainer, {
-        scale: 2, // 提高分辨率
+        scale: 2, // Improve resolution
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
@@ -79,26 +79,26 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
         height: pdfContainer.scrollHeight
       });
 
-      // 从DOM中移除临时元素
+      // Remove temporary element from DOM
       document.body.removeChild(pdfContainer);
 
-      // 创建PDF
+      // Create PDF
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       
-      // 计算PDF尺寸
-      const imgWidth = 210; // A4宽度
-      const pageHeight = 295; // A4高度
+      // Calculate PDF dimensions
+      const imgWidth = 210; // A4 width
+      const pageHeight = 295; // A4 height
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
 
       let position = 0;
 
-      // 添加第一页
+      // Add first page
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
-      // 如果内容超过一页，添加新页面
+      // If content exceeds one page, add new pages
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
@@ -106,11 +106,11 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
         heightLeft -= pageHeight;
       }
 
-      // 生成文件名
+      // Generate filename
       const meetingName = getNameFromUrl(meetingData.meetingUrl);
       const fileName = `meeting-minutes-${meetingName.replace(/[^a-zA-Z0-9]/g, '-')}-${new Date().toISOString().split('T')[0]}.pdf`;
 
-      // 下载PDF
+      // Download PDF
       pdf.save(fileName);
       
     } catch (error) {
@@ -121,10 +121,10 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
 
   const handlePrint = () => {
     try {
-      // 获取当前编辑后的内容
+      // Get current edited content
       const currentContent = getFormattedContent();
       
-      // 创建专门用于打印的隐藏元素
+      // Create hidden element specifically for printing
       const printContainer = document.createElement('div');
       printContainer.style.position = 'absolute';
       printContainer.style.left = '-9999px';
@@ -137,7 +137,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       printContainer.style.fontSize = '14px';
       printContainer.style.lineHeight = '1.6';
       
-      // 添加会议纪要内容（包含用户编辑的格式化）
+      // Add meeting minutes content (including user-edited formatting)
       printContainer.innerHTML = `
         <div style="margin-bottom: 30px;">
           <h1 style="color: #000000; margin-bottom: 10px; font-size: 24px;">Meeting Summary: ${getNameFromUrl(meetingData.meetingUrl)}</h1>
@@ -149,10 +149,10 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
         </div>
       `;
       
-      // 添加到DOM
+      // Add to DOM
       document.body.appendChild(printContainer);
       
-      // 创建打印窗口
+      // Create print window
       const printWindow = window.open('', '_blank');
       printWindow.document.write(`
         <!DOCTYPE html>
@@ -179,13 +179,13 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       `);
       printWindow.document.close();
       
-      // 等待内容加载完成后打印
+      // Wait for content to load before printing
       printWindow.onload = () => {
         printWindow.print();
         printWindow.close();
       };
       
-      // 从DOM中移除临时元素
+      // Remove temporary element from DOM
       document.body.removeChild(printContainer);
       
     } catch (error) {
@@ -194,11 +194,11 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     }
   };
 
-  // 文本格式化函数
+  // Text formatting functions
   const formatText = (formatType) => {
     if (!contentRef) return;
     
-    // 确保内容区域有焦点
+    // Ensure content area has focus
     contentRef.focus();
     
     const selection = window.getSelection();
@@ -208,12 +208,12 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     const selectedText = selection.toString();
     
     if (!selectedText) {
-      alert('请先选择要格式化的文本');
+      alert('Please select text to format first');
       return;
     }
     
-    // 使用 document.execCommand 来处理格式化
-    // 这样可以更好地处理嵌套格式
+    // Use document.execCommand to handle formatting
+    // This better handles nested formatting
     let command = '';
     switch (formatType) {
       case 'bold':
@@ -229,43 +229,43 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
         return;
     }
     
-    // 执行格式化命令
+    // Execute formatting command
     const result = document.execCommand(command, false, null);
     
-    // 清除选择
+    // Clear selection
     selection.removeAllRanges();
     
-    // 调试信息
+    // Debug info
     console.log(`Format command: ${command}, Result: ${result}`);
   };
 
-  // 处理文本选择
+  // Handle text selection
   const handleTextSelection = () => {
     const selection = window.getSelection();
     const selectedText = selection.toString();
     setSelectedText(selectedText);
   };
 
-  // 获取格式化后的内容
+  // Get formatted content
   const getFormattedContent = () => {
     if (!contentRef) {
       return generateContentForPDF();
     }
     
-    // 获取当前编辑后的HTML内容
+    // Get current edited HTML content
     let content = contentRef.innerHTML;
     
-    // 清理一些不需要的样式属性，保留格式化标签
+    // Clean some unwanted style attributes, preserve formatting tags
     content = content
-      .replace(/style="[^"]*"/g, '') // 移除内联样式
-      .replace(/class="[^"]*"/g, '') // 移除class属性
-      .replace(/data-[^=]*="[^"]*"/g, ''); // 移除data属性
+      .replace(/style="[^"]*"/g, '') // Remove inline styles
+      .replace(/class="[^"]*"/g, '') // Remove class attributes
+      .replace(/data-[^=]*="[^"]*"/g, ''); // Remove data attributes
     
     return content;
   };
 
   const handleShare = () => {
-    onShare();
+    if (onShare) onShare();
   };
 
   const getNameFromUrl = (url) => {
@@ -289,7 +289,6 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     if (typeof notes === 'object' && notes.transcript) {
       return (
         <div>
-          <h3>Meeting Transcript</h3>
           <div className="markdown-content">
             <ReactMarkdown>{notes.transcript}</ReactMarkdown>
           </div>
@@ -447,6 +446,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
         </div>
       </div>
       
+      {/*
       <div className="action-buttons chat-bubble" style={{ animationDelay: '0.3s' }}>
         <div className="tab-buttons">
           <button className="tab-button" onClick={handleDownload}>
@@ -457,6 +457,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
           </button>
         </div>
       </div>
+      */}
     </div>
   );
 };

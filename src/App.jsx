@@ -29,25 +29,25 @@ function App() {
     setMeetingData(data);
   };
 
-  const handleDownload = () => {
-    console.log('Download meeting minutes');
-    // 下载功能现在在MeetingMinutes组件中实现
-  };
+  // const handleDownload = () => {
+  //   console.log('Download meeting minutes');
+  //   // Download functionality is now implemented in MeetingMinutes component
+  // };
 
-  const handleShare = () => {
-    setShowShareModal(true);
-  };
+  // const handleShare = () => {
+  //   setShowShareModal(true);
+  // };
 
-  const handleShareSend = (recipients) => {
-    setShowShareModal(false);
-    setShowSuccessAnimation(true);
+  // const handleShareSend = (recipients) => {
+  //   setShowShareModal(false);
+  //   setShowSuccessAnimation(true);
 
-    // Show confirmation after animation
-    setTimeout(() => {
-      const recipientNames = recipients.map(r => r.name).join(', ');
-      alert(`Meeting minutes sent to Outlook for: ${recipientNames}`);
-    }, 3200);
-  };
+  //   // Show confirmation after animation
+  //   setTimeout(() => {
+  //     const recipientNames = recipients.map(r => r.name).join(', ');
+  //     alert(`Meeting minutes sent to Outlook for: ${recipientNames}`);
+  //   }, 3200);
+  // };
 
   const handleSuccessComplete = () => {
     setShowSuccessAnimation(false);
@@ -72,7 +72,7 @@ function App() {
         {/* Header */}
         <div className="logo">
           <h1 className="bounce-in">
-            Welcome to <span className="text-gradient">PeakNote</span>
+            <span className="text-gradient">PEAKNOTE</span>
           </h1>
           <div className="typing-container">
             <p className="lead typing-animation" key={currentTypingMessage}>
@@ -88,8 +88,8 @@ function App() {
         {meetingData && (
           <MeetingMinutes 
             meetingData={meetingData}
-            onDownload={handleDownload}
-            onShare={handleShare}
+            // onDownload={handleDownload}
+            // onShare={handleShare}
           />
         )}
       </div>
@@ -105,7 +105,7 @@ function App() {
       <ShareModal 
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        onSend={handleShareSend}
+        // onSend={handleShareSend}
       />
 
       {/* Success Animation */}

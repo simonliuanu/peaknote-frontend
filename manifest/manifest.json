@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.11",
+  "version": "1.0.0",
+  "id": "9b6db5d8-6f59-4cd3-b823-d20be58cbb0d",
+  "packageName": "com.peaknote.teams",
+  "developer": {
+    "name": "PeakNote",
+    "websiteUrl": "https://mango-grass-059522a10.2.azurestaticapps.net",
+    "privacyUrl": "https://mango-grass-059522a10.2.azurestaticapps.net/privacy",
+    "termsOfUseUrl": "https://mango-grass-059522a10.2.azurestaticapps.net/terms"
+  },
+  "icons": {
+    "color": "icon-color.png",
+    "outline": "icon-outline.png"
+  },
+  "name": {
+    "short": "PeakNote",
+    "full": "PeakNote - Meeting Notes Manager"
+  },
+  "description": {
+    "short": "Streamline your meeting notes",
+    "full": "PeakNote helps you create, manage, and share professional meeting notes with customizable templates for different meeting types."
+  },
+  "accentColor": "#150429",
+  "staticTabs": [
+    {
+      "entityId": "peaknote-tab",
+      "name": "PeakNote",
+      "contentUrl": "https://mango-grass-059522a10.2.azurestaticapps.net",
+      "scopes": ["personal"]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "mango-grass-059522a10.2.azurestaticapps.net"
+  ]
+}
