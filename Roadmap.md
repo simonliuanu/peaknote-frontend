@@ -47,19 +47,19 @@
 | **Stakeholder Demo** | Real meeting processing through complete tech stack |
 | **Your Input** | • Approve Azure app registration and permissions<br/>• Test integrated workflow |
 
-### **Week 2 (July 29) - Teams SDK & Authentication**
-| Deliverable | Teams tab integration with user authentication |
+### **Week 2 (July 29) - Teams SDK & Frontend Refinement**
+| Deliverable | Teams SDK integration and UI refinement (fonts, layout, background) |
 |-------------|------------------------------------------------|
-| **Focus** | • Implement Microsoft Teams SDK in React frontend<br/>• Add Teams SSO authentication using existing Azure setup<br/>• Integrate Teams context detection with backend user management<br/>• Test app loading within Teams using manifest |
-| **Stakeholder Demo** | App running inside Teams with authenticated user sessions |
-| **Your Input** | • Test Teams integration in your environment<br/>• Validate authentication experience |
+| **Focus** | • Integrate Microsoft Teams SDK into the React frontend<br/>• Allow the app to run inside Microsoft Teams and access basic user context<br/>• Refine frontend design including typography, spacing, color scheme, and background effects<br/>• Align interface elements for consistent component spacing and modular hierarchy |
+| **Stakeholder Demo** | App embedded inside Microsoft Teams with updated visual design and improved user guidance |
+| **Your Input** | • Test Teams tab integration and context detection<br/>• Review updated fonts, layout, and feedback indicators |
 
-### **Week 3 (August 5) - Enhanced Data Processing**
-| Deliverable | Improved meeting data processing and storage |
+### **Week 3 (August 5) - Data Deployment, Debugging & Toolbar Features**
+| Deliverable |  Database deployment, bug testing, and toolbar feature implementation |
 |-------------|----------------------------------------------|
-| **Focus** | • Enhance existing Graph API integration for richer meeting metadata<br/>• Optimize transcript processing and storage in existing database<br/>• Improve meeting instance sync and user management<br/>• Add better error handling and retry mechanisms |
-| **Stakeholder Demo** | Enhanced meeting data quality and processing reliability |
-| **Your Input** | • Confirm data retention and privacy policies<br/>• Review meeting data quality |
+| **Focus** | • Finalize and deploy database schema and confirm entity relationships<br/>• Prepare for backend deployment, including environment setup and service packaging<br/>• Conduct bug testing on AI-generated summaries and fix transcript processing issues<br/>• Begin implementation of the toolbar with UI interactions<br/>• Align frontend-backend data mappings for consistent content rendering|
+| **Stakeholder Demo** | Working backend deployment, improved data stability, and functional toolbar preview |
+| **Your Input** | • Provide test meeting data for debugging<br/>• Review toolbar features and suggest interaction priorities |
 
 ### **Week 4 (August 12) - AI Enhancement & Templates**
 | Deliverable | Enhanced AI processing with template support |
