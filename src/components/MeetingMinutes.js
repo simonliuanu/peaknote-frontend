@@ -198,6 +198,9 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
   const formatText = (formatType) => {
     if (!contentRef) return;
     
+    // 确保内容区域有焦点
+    contentRef.focus();
+    
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
     
@@ -209,32 +212,31 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       return;
     }
     
-    let formattedText = '';
+    // 使用 document.execCommand 来处理格式化
+    // 这样可以更好地处理嵌套格式
+    let command = '';
     switch (formatType) {
       case 'bold':
-        formattedText = `<strong>${selectedText}</strong>`;
+        command = 'bold';
         break;
       case 'italic':
-        formattedText = `<em>${selectedText}</em>`;
+        command = 'italic';
         break;
       case 'underline':
-        formattedText = `<u>${selectedText}</u>`;
+        command = 'underline';
         break;
       default:
         return;
     }
     
-    // 创建包含格式化文本的元素
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = formattedText;
-    const formattedElement = tempDiv.firstChild;
-    
-    // 删除选中的文本并插入格式化后的文本
-    range.deleteContents();
-    range.insertNode(formattedElement);
+    // 执行格式化命令
+    const result = document.execCommand(command, false, null);
     
     // 清除选择
     selection.removeAllRanges();
+    
+    // 调试信息
+    console.log(`Format command: ${command}, Result: ${result}`);
   };
 
   // 处理文本选择
@@ -436,7 +438,9 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
             onSelect={handleTextSelection}
             onMouseUp={handleTextSelection}
             onKeyUp={handleTextSelection}
+            onFocus={() => console.log('Content area focused')}
             suppressContentEditableWarning={true}
+            style={{ outline: 'none' }}
           >
             {generateContent()}
           </div>
