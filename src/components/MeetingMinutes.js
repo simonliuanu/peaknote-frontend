@@ -29,27 +29,27 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     }
   }, [meetingData]);
 
-  const handleDownload = () => {
-    onDownload();
-    alert('Downloading meeting minutes as PDF...');
-  };
+  // const handleDownload = () => {
+  //   onDownload();
+  //   alert('Downloading meeting minutes as PDF...');
+  // };
 
-  const handleShare = () => {
-    onShare();
-  };
+  // const handleShare = () => {
+  //   onShare();
+  // };
 
-  const getNameFromUrl = (url) => {
-    try {
-      const urlObj = new URL(url);
-      if (urlObj.pathname.includes('/')) {
-        const parts = urlObj.pathname.split('/').filter(p => p);
-        return parts[parts.length - 1].replace(/-/g, ' ');
-      }
-      return 'Teams Meeting';
-    } catch(e) {
-      return 'Teams Meeting';
-    }
-  };
+  // const getNameFromUrl = (url) => {
+  //   try {
+  //     const urlObj = new URL(url);
+  //     if (urlObj.pathname.includes('/')) {
+  //       const parts = urlObj.pathname.split('/').filter(p => p);
+  //       return parts[parts.length - 1].replace(/-/g, ' ');
+  //     }
+  //     return 'Teams Meeting';
+  //   } catch(e) {
+  //     return 'Teams Meeting';
+  //   }
+  // };
 
   const generateContent = () => {
     const notes = meetingData.notes;
