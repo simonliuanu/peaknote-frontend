@@ -51,10 +51,6 @@ const MeetingForm = ({ onSubmit }) => {
     setMeetingUrl(e.target.value);
     setIsFinished(false);
   };
-  const handleTemplateChange = (e) => {
-    setTemplate(e.target.value);
-    setIsFinished(false);
-  };
 
   return (
     <div className="card shadow p-4 meeting-form-container">
