@@ -13,8 +13,8 @@ const MeetingForm = ({ onSubmit }) => {
 
     try {
       // Use the meeting URL directly as it should already be properly encoded
-      const apiUrl = `https://68316233e15d.ngrok-free.app/transcript/by-url?url=${meetingUrl}`;
-      
+      const apiUrl = `https://8fca4ce341a6.ngrok-free.app/transcript/by-url?url=${meetingUrl}`;
+
       // Call transcript API
       const response = await fetch(apiUrl, {
         method: 'GET',
@@ -28,7 +28,7 @@ const MeetingForm = ({ onSubmit }) => {
       }
 
       const transcriptData = await response.json();
-      
+
       // Structure the data to match what the app expects
       const formattedData = {
         meetingUrl,
@@ -36,14 +36,14 @@ const MeetingForm = ({ onSubmit }) => {
         notes: transcriptData, // Changed from 'transcript' to 'notes' to match MeetingMinutes expectation
         generatedAt: new Date().toISOString()
       };
-      
+
       onSubmit(formattedData);
     } catch (error) {
       console.error('Error generating meeting transcript:', error);
       alert('Failed to generate meeting transcript. Please try again.');
     } finally {
       setIsProcessing(false);
-      setIsFinished(true); 
+      setIsFinished(true);
     }
   };
 
@@ -85,8 +85,8 @@ const MeetingForm = ({ onSubmit }) => {
             </select>
           </div>
         </div>
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className={`btn btn-primary${isProcessing ? ' btn-processing' : ''}${isFinished ? ' btn-finished' : ''}`}
           disabled={isProcessing}
         >
