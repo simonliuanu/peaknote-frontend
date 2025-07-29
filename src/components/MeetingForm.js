@@ -3,7 +3,6 @@ import './MeetingForm.css';
 
 const MeetingForm = ({ onSubmit }) => {
   const [meetingUrl, setMeetingUrl] = useState('');
-  const [template, setTemplate] = useState('smart');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
@@ -32,7 +31,7 @@ const MeetingForm = ({ onSubmit }) => {
       // Structure the data to match what the app expects
       const formattedData = {
         meetingUrl,
-        template,
+        template: 'smart',
         notes: transcriptData, // Changed from 'transcript' to 'notes' to match MeetingMinutes expectation
         generatedAt: new Date().toISOString()
       };
