@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import './MeetingMinutes.css';
 import jsPDF from 'jspdf';
@@ -8,6 +8,8 @@ import MinutesToolbar from './MinutesToolbar';
 
 const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
   const minutesRef = useRef(null);
+  const [selectedText, setSelectedText] = useState('');
+  const [contentRef, setContentRef] = useState(null);
 
   useEffect(() => {
     if (minutesRef.current) {
@@ -186,6 +188,56 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     }
   };
 
+  // 文本格式化函数
+  const formatText = (formatType) => {
+    if (!contentRef) return;
+    
+    const selection = window.getSelection();
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    const selectedText = selection.toString();
+    
+    if (!selectedText) {
+      alert('请先选择要格式化的文本');
+      return;
+    }
+    
+    let formattedText = '';
+    switch (formatType) {
+      case 'bold':
+        formattedText = `<strong>${selectedText}</strong>`;
+        break;
+      case 'italic':
+        formattedText = `<em>${selectedText}</em>`;
+        break;
+      case 'underline':
+        formattedText = `<u>${selectedText}</u>`;
+        break;
+      default:
+        return;
+    }
+    
+    // 创建包含格式化文本的元素
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = formattedText;
+    const formattedElement = tempDiv.firstChild;
+    
+    // 删除选中的文本并插入格式化后的文本
+    range.deleteContents();
+    range.insertNode(formattedElement);
+    
+    // 清除选择
+    selection.removeAllRanges();
+  };
+
+  // 处理文本选择
+  const handleTextSelection = () => {
+    const selection = window.getSelection();
+    const selectedText = selection.toString();
+    setSelectedText(selectedText);
+  };
+
   const handleShare = () => {
     onShare();
   };
@@ -316,8 +368,24 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
   return (
     <div className="minutes-section" ref={minutesRef}>
       <MinutesToolbar
-      onLeftIconClick={idx => { /* 这里可以写左侧图标点击逻辑 */ }}
+      onLeftIconClick={idx => {
+        // 左侧按钮：文本格式化
+        switch (idx) {
+          case 0: // 加粗
+            formatText('bold');
+            break;
+          case 1: // 斜体
+            formatText('italic');
+            break;
+          case 2: // 下划线
+            formatText('underline');
+            break;
+          default:
+            break;
+        }
+      }}
       onRightIconClick={idx => {
+        // 右侧按钮：分享、下载、打印
         if (idx === 0) {
           // 分享按钮
           handleShare();
@@ -337,7 +405,15 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
             <p>Date: {new Date().toLocaleDateString()}</p>
             <p>Template: <span>{meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</span></p>
           </div>
-          <div className="minutes-content">
+          <div 
+            className="minutes-content" 
+            ref={setContentRef}
+            contentEditable={true}
+            onSelect={handleTextSelection}
+            onMouseUp={handleTextSelection}
+            onKeyUp={handleTextSelection}
+            suppressContentEditableWarning={true}
+          >
             {generateContent()}
           </div>
         </div>
