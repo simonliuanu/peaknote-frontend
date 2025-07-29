@@ -38,6 +38,9 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       // 显示下载提示
       onDownload();
       
+      // 获取当前编辑后的内容
+      const currentContent = getFormattedContent();
+      
       // 创建专门用于PDF的隐藏元素
       const pdfContainer = document.createElement('div');
       pdfContainer.style.position = 'absolute';
@@ -51,7 +54,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       pdfContainer.style.fontSize = '14px';
       pdfContainer.style.lineHeight = '1.6';
       
-      // 添加会议纪要内容（不包含按钮）
+      // 添加会议纪要内容（包含用户编辑的格式化）
       pdfContainer.innerHTML = `
         <div style="margin-bottom: 30px;">
           <h1 style="color: #000000; margin-bottom: 10px; font-size: 24px;">Meeting Summary: ${getNameFromUrl(meetingData.meetingUrl)}</h1>
@@ -59,7 +62,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
           <p style="color: #666666; margin: 5px 0;">Template: ${meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</p>
         </div>
         <div style="color: #000000;">
-          ${generateContentForPDF()}
+          ${currentContent}
         </div>
       `;
       
@@ -118,6 +121,9 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
 
   const handlePrint = () => {
     try {
+      // 获取当前编辑后的内容
+      const currentContent = getFormattedContent();
+      
       // 创建专门用于打印的隐藏元素
       const printContainer = document.createElement('div');
       printContainer.style.position = 'absolute';
@@ -131,7 +137,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       printContainer.style.fontSize = '14px';
       printContainer.style.lineHeight = '1.6';
       
-      // 添加会议纪要内容（不包含按钮）
+      // 添加会议纪要内容（包含用户编辑的格式化）
       printContainer.innerHTML = `
         <div style="margin-bottom: 30px;">
           <h1 style="color: #000000; margin-bottom: 10px; font-size: 24px;">Meeting Summary: ${getNameFromUrl(meetingData.meetingUrl)}</h1>
@@ -139,7 +145,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
           <p style="color: #666666; margin: 5px 0;">Template: ${meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</p>
         </div>
         <div style="color: #000000;">
-          ${generateContentForPDF()}
+          ${currentContent}
         </div>
       `;
       
@@ -236,6 +242,24 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     const selection = window.getSelection();
     const selectedText = selection.toString();
     setSelectedText(selectedText);
+  };
+
+  // 获取格式化后的内容
+  const getFormattedContent = () => {
+    if (!contentRef) {
+      return generateContentForPDF();
+    }
+    
+    // 获取当前编辑后的HTML内容
+    let content = contentRef.innerHTML;
+    
+    // 清理一些不需要的样式属性，保留格式化标签
+    content = content
+      .replace(/style="[^"]*"/g, '') // 移除内联样式
+      .replace(/class="[^"]*"/g, '') // 移除class属性
+      .replace(/data-[^=]*="[^"]*"/g, ''); // 移除data属性
+    
+    return content;
   };
 
   const handleShare = () => {
