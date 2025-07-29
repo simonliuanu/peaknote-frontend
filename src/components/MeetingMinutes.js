@@ -118,6 +118,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
         </div>
       </div>
       
+      {/*
       <div className="action-buttons chat-bubble" style={{ animationDelay: '0.3s' }}>
         <div className="tab-buttons">
           <button className="tab-button" onClick={handleDownload}>
@@ -128,6 +129,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
           </button>
         </div>
       </div>
+      */}
     </div>
   );
 };
