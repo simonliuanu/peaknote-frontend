@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import './MeetingMinutes.css';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 import MinutesToolbar from './MinutesToolbar';
 
@@ -29,9 +31,159 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     }
   }, [meetingData]);
 
-  const handleDownload = () => {
-    onDownload();
-    alert('Downloading meeting minutes as PDF...');
+  const handleDownload = async () => {
+    try {
+      // 显示下载提示
+      onDownload();
+      
+      // 创建专门用于PDF的隐藏元素
+      const pdfContainer = document.createElement('div');
+      pdfContainer.style.position = 'absolute';
+      pdfContainer.style.left = '-9999px';
+      pdfContainer.style.top = '-9999px';
+      pdfContainer.style.width = '800px';
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#000000';
+      pdfContainer.style.padding = '40px';
+      pdfContainer.style.fontFamily = 'Arial, sans-serif';
+      pdfContainer.style.fontSize = '14px';
+      pdfContainer.style.lineHeight = '1.6';
+      
+      // 添加会议纪要内容（不包含按钮）
+      pdfContainer.innerHTML = `
+        <div style="margin-bottom: 30px;">
+          <h1 style="color: #000000; margin-bottom: 10px; font-size: 24px;">Meeting Summary: ${getNameFromUrl(meetingData.meetingUrl)}</h1>
+          <p style="color: #666666; margin: 5px 0;">Date: ${new Date().toLocaleDateString()}</p>
+          <p style="color: #666666; margin: 5px 0;">Template: ${meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</p>
+        </div>
+        <div style="color: #000000;">
+          ${generateContentForPDF()}
+        </div>
+      `;
+      
+      // 添加到DOM
+      document.body.appendChild(pdfContainer);
+      
+      // 使用html2canvas将元素转换为canvas
+      const canvas = await html2canvas(pdfContainer, {
+        scale: 2, // 提高分辨率
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        width: 800,
+        height: pdfContainer.scrollHeight
+      });
+
+      // 从DOM中移除临时元素
+      document.body.removeChild(pdfContainer);
+
+      // 创建PDF
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      // 计算PDF尺寸
+      const imgWidth = 210; // A4宽度
+      const pageHeight = 295; // A4高度
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+
+      let position = 0;
+
+      // 添加第一页
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // 如果内容超过一页，添加新页面
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // 生成文件名
+      const meetingName = getNameFromUrl(meetingData.meetingUrl);
+      const fileName = `meeting-minutes-${meetingName.replace(/[^a-zA-Z0-9]/g, '-')}-${new Date().toISOString().split('T')[0]}.pdf`;
+
+      // 下载PDF
+      pdf.save(fileName);
+      
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+    }
+  };
+
+  const handlePrint = () => {
+    try {
+      // 创建专门用于打印的隐藏元素
+      const printContainer = document.createElement('div');
+      printContainer.style.position = 'absolute';
+      printContainer.style.left = '-9999px';
+      printContainer.style.top = '-9999px';
+      printContainer.style.width = '800px';
+      printContainer.style.backgroundColor = '#ffffff';
+      printContainer.style.color = '#000000';
+      printContainer.style.padding = '40px';
+      printContainer.style.fontFamily = 'Arial, sans-serif';
+      printContainer.style.fontSize = '14px';
+      printContainer.style.lineHeight = '1.6';
+      
+      // 添加会议纪要内容（不包含按钮）
+      printContainer.innerHTML = `
+        <div style="margin-bottom: 30px;">
+          <h1 style="color: #000000; margin-bottom: 10px; font-size: 24px;">Meeting Summary: ${getNameFromUrl(meetingData.meetingUrl)}</h1>
+          <p style="color: #666666; margin: 5px 0;">Date: ${new Date().toLocaleDateString()}</p>
+          <p style="color: #666666; margin: 5px 0;">Template: ${meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</p>
+        </div>
+        <div style="color: #000000;">
+          ${generateContentForPDF()}
+        </div>
+      `;
+      
+      // 添加到DOM
+      document.body.appendChild(printContainer);
+      
+      // 创建打印窗口
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Meeting Minutes - Print</title>
+          <style>
+            body {
+              margin: 0;
+              padding: 20px;
+              font-family: Arial, sans-serif;
+              background-color: #ffffff;
+              color: #000000;
+            }
+            @media print {
+              body { margin: 0; }
+            }
+          </style>
+        </head>
+        <body>
+          ${printContainer.innerHTML}
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      
+      // 等待内容加载完成后打印
+      printWindow.onload = () => {
+        printWindow.print();
+        printWindow.close();
+      };
+      
+      // 从DOM中移除临时元素
+      document.body.removeChild(printContainer);
+      
+    } catch (error) {
+      console.error('Error printing:', error);
+      alert('Failed to print. Please try again.');
+    }
   };
 
   const handleShare = () => {
@@ -105,11 +257,78 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     return <p>No meeting content available.</p>;
   };
 
+  const generateContentForPDF = () => {
+    const notes = meetingData.notes;
+    if (!notes) return '<p>No meeting notes available.</p>';
+    
+    // Handle transcript string from API
+    if (typeof notes === 'object' && notes.transcript) {
+      return `
+        <h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-size: 18px;">Meeting Transcript</h3>
+        <div style="color: #000000; line-height: 1.6;">
+          ${notes.transcript.replace(/\n/g, '<br>')}
+        </div>
+      `;
+    }
+    
+    // Handle structured notes format (legacy)
+    if (typeof notes === 'object' && (notes.agenda || notes.participants || notes.actionItems || notes.decisions)) {
+      let content = '';
+      
+      if (notes.agenda && notes.agenda.length > 0) {
+        content += '<h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-size: 18px;">Agenda</h3><ul style="color: #000000;">';
+        notes.agenda.forEach(item => {
+          content += `<li style="margin-bottom: 5px;">${item}</li>`;
+        });
+        content += '</ul>';
+      }
+      
+      if (notes.participants && notes.participants.length > 0) {
+        content += '<h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-size: 18px;">Participants</h3><ul style="color: #000000;">';
+        notes.participants.forEach(participant => {
+          content += `<li style="margin-bottom: 5px;">${participant}</li>`;
+        });
+        content += '</ul>';
+      }
+      
+      if (notes.actionItems && notes.actionItems.length > 0) {
+        content += '<h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-size: 18px;">Action Items</h3><ul style="color: #000000;">';
+        notes.actionItems.forEach(item => {
+          content += `<li style="margin-bottom: 5px;">${item}</li>`;
+        });
+        content += '</ul>';
+      }
+      
+      if (notes.decisions && notes.decisions.length > 0) {
+        content += '<h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-size: 18px;">Decisions</h3><ul style="color: #000000;">';
+        notes.decisions.forEach(decision => {
+          content += `<li style="margin-bottom: 5px;">${decision}</li>`;
+        });
+        content += '</ul>';
+      }
+      
+      return content || '<p>No meeting content available.</p>';
+    }
+
+    return '<p>No meeting content available.</p>';
+  };
+
   return (
     <div className="minutes-section" ref={minutesRef}>
       <MinutesToolbar
       onLeftIconClick={idx => { /* 这里可以写左侧图标点击逻辑 */ }}
-      onRightIconClick={idx => { /* 这里可以写右侧图标点击逻辑 */ }}
+      onRightIconClick={idx => {
+        if (idx === 0) {
+          // 分享按钮
+          handleShare();
+        } else if (idx === 1) {
+          // 下载按钮
+          handleDownload();
+        } else if (idx === 2) {
+          // 打印按钮
+          handlePrint();
+        }
+      }}
       />
       <div className="chat-bubble" style={{ animationDelay: '0.1s' }}>
         <div className="a4-paper">

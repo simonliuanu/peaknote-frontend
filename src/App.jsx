@@ -31,6 +31,7 @@ function App() {
 
   const handleDownload = () => {
     console.log('Download meeting minutes');
+    // 下载功能现在在MeetingMinutes组件中实现
   };
 
   const handleShare = () => {
