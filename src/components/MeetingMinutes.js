@@ -59,7 +59,6 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
     if (typeof notes === 'object' && notes.transcript) {
       return (
         <div>
-          <h3>Meeting Transcript</h3>
           <div className="markdown-content">
             <ReactMarkdown>{notes.transcript}</ReactMarkdown>
           </div>
@@ -112,12 +111,7 @@ const MeetingMinutes = ({ meetingData, onDownload, onShare }) => {
       onRightIconClick={idx => { /* 这里可以写右侧图标点击逻辑 */ }}
       />
       <div className="chat-bubble" style={{ animationDelay: '0.1s' }}>
-        <div className="a4-paper">
-          <div className="minutes-header">
-            <h2>Meeting Summary: {getNameFromUrl(meetingData.meetingUrl)}</h2>
-            <p>Date: {new Date().toLocaleDateString()}</p>
-            <p>Template: <span>{meetingData.template?.charAt(0).toUpperCase() + meetingData.template?.slice(1)}</span></p>
-          </div>
+        <div className="a4-paper"> 
           <div className="minutes-content">
             {generateContent()}
           </div>
